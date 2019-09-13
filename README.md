@@ -34,9 +34,17 @@ python manage.py test
 
 ```console
 heroku create minhainstancia
+
 heroku config:push
 heroku config:set SECRET_KEY=`python contrib/secret_gen.py`
 heroku config:set DEBUG=False
-# configuro o e-mail
+heroku config:set ALLOWED_HOSTS=.herokuapp.com
+
+# Configure o email com sendgrid
+heroku addons:create sendgrid:starter
+heroku config:set EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+heroku config:set EMAIL_HOST_USER=`heroku config:get SENDGRID_USERNAME`
+heroku config:set EMAIL_HOST_PASSWORD=`heroku config:get SENDGRID_PASSWORD`
+
 git push heroku master --force
 ```
