@@ -1,5 +1,8 @@
+from django.shortcuts import resolve_url as r
 from django.test import TestCase
+
 from eventex.subscriptions.models import Subscription
+
 
 class SubscriptionDetailGetTest(TestCase):
     def setUp(self):
@@ -9,7 +12,7 @@ class SubscriptionDetailGetTest(TestCase):
             email='rennan@lima.net',
             phone='68-99928-8593'
         )
-        self.resp = self.client.get('/inscricao/{}/'.format(self.obj.pk))
+        self.resp = self.client.get(r('subscriptions:detail', self.obj.pk))
 
     def test_get(self):
         self.assertEqual(200, self.resp.status_code)
@@ -36,5 +39,5 @@ class SubscriptionDetailGetTest(TestCase):
 
 class SubscriptionDetailNotFoundTest(TestCase):
     def test_not_found(self):
-        self.resp = self.client.get('/inscricao/0/')
+        self.resp = self.client.get(r('subscriptions:detail', 0))
         self.assertEqual(404, self.resp.status_code)
