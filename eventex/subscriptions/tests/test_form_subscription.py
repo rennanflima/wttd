@@ -20,9 +20,24 @@ class SubscriptionFormTest(TestCase):
         self.assertFormErrorCode(form, 'cpf', 'length')
 
     def test_name_must_be_capitalized(self):
+        """Name must be capitalized."""
         form = self.make_validated_form(name='RENNAN lima')
         self.assertEqual('Rennan Lima', form.cleaned_data['name'])
 
+    def test_email_is_optional(self):
+        """Email is optional."""
+        form = self.make_validated_form(email='')
+        self.assertFalse(form.errors)
+
+    def test_phone_is_optional(self):
+        """Phone is optional."""
+        form = self.make_validated_form(phone='')
+        self.assertFalse(form.errors)
+
+    def test_must_inform_email_or_phone(self):
+        """Email and Phone are optional, but one must be informed."""
+        form = self.make_validated_form(phone='', email='')
+        self.assertListEqual(['__all__'], list(form.errors))
 
     def assertFormErrorCode(self, form, field, code):
         errors = form.errors.as_data()
@@ -43,3 +58,19 @@ class SubscriptionFormTest(TestCase):
         form.is_valid()
         return form
 
+
+class SubscriptionFormRegressionTest(TestCase):
+    def test_form(self):
+        try:
+            valid = dict(name='Rennan Lima', cpf='12345678901',
+                         email='rennan@lima.net', phone='68-99928-8593')
+            
+            data = valid.copy()
+
+            del data['phone']
+            data['email'] = 'asdf'
+            
+            form = SubscriptionForm(data)
+            form.is_valid()
+        except KeyError:
+            self.fail()
