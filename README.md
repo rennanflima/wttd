@@ -3,7 +3,7 @@
 Sistema de Eventos encomendado pela Morena.
 
 [![Build Status](https://travis-ci.org/rennanflima/wttd.svg?branch=master)](https://travis-ci.org/rennanflima/wttd)
-
+[![Coverage Status](https://coveralls.io/repos/github/rennanflima/wttd/badge.svg?branch=master)](https://coveralls.io/github/rennanflima/wttd?branch=master)
 
 ## Como desenvolver?
 
