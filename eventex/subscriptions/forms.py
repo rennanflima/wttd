@@ -30,12 +30,12 @@ class SubscriptionForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data['name']
-        words = [w.capitalize() for w in name.split()]        
+        words = [w.capitalize() for w in name.split()]
         return ' '.join(words)
 
     def clean(self):
         self.cleaned_data = super().clean()
-        
+
         if not self.cleaned_data.get('email') and not self.cleaned_data.get('phone'):
             raise ValidationError('Informe seu e-mail ou telefone')
 
